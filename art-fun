@@ -1,0 +1,868 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Oct 14 01:12:54 2018
+
+@author: merveozgul
+“””
+Docstring: 
+
+A) Introduction: 
+In this game your aim is to find the real artwork named Life Goes On...
+It requires art knowledge and luck. 
+
+Round 1: Answer the question about art correctly. 
+    You will have 2 chances in the first round.
+
+Round 2: Roll the die and set your bid
+	    You will have 3 chances to roll the die and set your bid. 
+
+Round 3: Be in top 5 bidders among 9 other players
+		    After all of the players roll the die, top 5 players will be qualified
+		   for round 4. 		
+
+Round 4: Find the real artwork from 5 identical black boxes	
+	   One of the boxes will have the real artwork and you have to guess
+	   The number of the box that has it. 
+
+B) Known Bugs and/or Errors:
+
+	None.
+
+"""
+
+from random import randint
+import random
+from random import choice
+import numpy as np
+from sys import exit
+
+
+def game_start():
+    global bidder_name
+    global die_value
+    global chois #since I will use a package
+    global answer
+    global list_players
+    global median_players
+    global question_list
+
+
+    bidder_name = input("Please enter your name: ").title()
+
+    print(f"""
+Alright artlover {bidder_name}!
+
+Welcome to world's most outrageous and best art auction house Glimpsie's, {bidder_name}!
+You are first to arrive!""")
+
+    print(f"""
+-------------------------------------------------------------------------------""")
+    input('\t\t\t\t\t<Press any key to continue> \n')
+    print(f"""
+-------------------------------------------------------------------------------""")
+    print(f"""
+Today we will have a gamified auction and donation program as our artist Fansy requested.
+There will be 4 rounds that you need to complete in order to buy the artwork made
+by Fansy.!""")
+    
+    print(f"""
+-------------------------------------------------------------------------------""")
+    input('\t\t\t\t\t<Press any key to continue> \n')
+    print(f"""
+-------------------------------------------------------------------------------""")
+    
+    print(f"""
+There are 9 other players in the game. Only one will return home with Fansy's
+art. But if you can't win, your money will be donated to Young Artists Association!  \n""")
+    
+    print(f"""
+-------------------------------------------------------------------------------""")
+   
+    input('\t\t\t\t\t<Press any key to continue> \n')
+    
+    print(f"""
+-------------------------------------------------------------------------------""")
+    print(f""" 
+Even if you don't win Fansy's art, you will return home with a deep satisfaction 
+of doing good! \n """)
+    
+    print("""More artsy, more risky, more fun and a good cause! \n\n """)
+
+    round_1()
+
+def round_1():
+
+    print(f"""
+******************************************************************************
+                      WELCOME TO ROUND 1!
+******************************************************************************           
+
+
+\tLet's begin our game with some questions.
+\tIf you answer the question correct, you will be qualified to 
+\tjoin the auction!
+\tRemember you have 2 chances to answer a question correct. \n""")
+    
+    input('\t\t\t\t\t<Press any key to continue> \n')
+    
+    print(f"""
+*********************Reminder**************************************************
+
+            If you ever want to exit the game please write 'exit'.
+            If you respond with an invalid answer, you will be disqualified.
+            Answer with 'a' or 'b' or 'c'.
+            
+*******************************************************************************""")
+    
+    
+    
+
+    question_list = ['What is the name of the first female painter?',  #Artemisia Gentileschi
+                     'What year did Basquiat die?', #1988
+                     'What is the most expensive artwork ever sold?',  #Modigliani
+                     'What does art l\'art pour l\'art mean in English?', #art for arts sake
+                     'In what year street artist Banksy(very similar to Fansy), stuck his work on the the Tate s wall?']
+    questions = 2
+
+    while questions > 0:
+        question = random.choice(question_list)
+        input("\n\t\t\t\t\t<Press any key for your art challenge>\n")
+
+        print(f"{question} \n")
+        
+
+        if question == question_list[0]: #What is the name of the first female painter?
+            print(f"""Choose the correct answer: #
+                A) Frida Kahlo
+                B) Mary Cassatt
+                C) Artemisia Gentileschi
+                """)
+
+            answer_round2 = input("> ").lower()
+            if answer_round2 == 'c' or answer_round2 == 'artemisia gentileschi' or 'artemisia' in answer_round2:                            #correct answer
+                print("Well done, correct answer! Off to second round")
+                input('<Press Enter to continue>')
+                round_2()
+                break
+
+            elif  answer_round2 == 'exit':
+                exit(0)
+
+            else:
+                if questions == 2:
+                    if answer_round2 == 'a' or answer_round2 == 'b':
+                        print("Okay I will ask you one more time!\n")####
+                        questions -= 1###
+                    else:
+                        print(f"""
+Your answer is not valid. If you don't give a valid answer, you will be disqualified. \n""")
+
+                elif questions == 1:
+                    if answer_round2 == 'a' or answer_round2 == 'b' :
+                        print(f"""You answered this one wrong in your second chance...\n """)
+                        questions -= 1
+                        fail()
+                    else:
+                        questions -= 1
+                        disqualify()
+   
+                else:
+                    fail()
+
+        if question == question_list[1]:     #What year did Basquiat die?
+            print(f"""Choose the correct answer:
+                A) 1990
+                B) 2001
+                C) 1988
+                """)
+
+            answer_round2 = input("> ").lower()
+            if answer_round2 == 'c'  or answer_round2 == '1988':                           #correct answer
+                print("Well done, correct answer! Off to second round!!")
+                input('<Press Enter to continue>')
+                round_2()
+                break
+
+            elif  answer_round2 == 'exit':
+                exit(0)
+
+            else: ###burda disqualify etmek icin yazdim
+                if questions == 2:
+                    if answer_round2 == 'a' or answer_round2 == 'b' :
+                        print("Okay I will ask you one more time!")####
+                        questions -= 1###
+                    else:
+                        print(f"""
+Your answer is not valid. If you don't give a valid answer, you will be disqualified. \n""")
+                        questions -= 1
+
+                elif questions == 1:
+                    if answer_round2 == 'a' or answer_round2 == 'b' :
+                        print(f"""You answered this one wrong in your second chance... """)
+                        questions -= 1
+                        fail()
+                    else:
+                        questions -= 1
+                        disqualify()
+                else:
+                    fail()
+
+        if question == question_list[2]:     #What is the most expensive artwork ever sold?
+            print(f"""Choose the correct answer:
+                A) Picasso
+                B) Modigliani
+                C) Damien Hirst
+                """)
+
+            answer_round2 = input("> ").lower()
+            if answer_round2 == 'b' or answer_round2 == 'modigliani' :                           #correct answer
+                print("Well done, correct answer! Off to second round!!")
+                input('<Press Enter to continue>')
+                round_2()                        #correct ans goes to round 3a
+                break
+
+            elif  answer_round2 == 'exit':
+                exit(0)
+
+            else: ###burda disqualify etmek icin yazdim
+                if questions == 2:
+                    if answer_round2 == 'a' or answer_round2 == 'b':
+                        print("Okay I will ask you one more time!")####
+                        questions -= 1###
+                    else:
+                        print(f"""
+Your answer is not valid. If you don't give a valid answer, you will be disqualified. \n""")             
+                        questions -= 1
+
+                elif questions == 1:
+                    if answer_round2 == 'a' or answer_round2 == 'b' :
+                        print(f"""
+You answered this one wrong in your second chance... """)
+                        questions -= 1
+                        fail()
+                    else:
+                        questions -= 1
+                        disqualify()
+
+        if question == question_list[3]:     #What does art l\'art pour l\'art mean in English?
+            print(f"""Choose the correct answer:
+                A) Art for art's sake
+                B) Art is gonna art
+                C) Interesting part is art
+                """)
+
+            answer_round2 = input("> ").lower()
+            if answer_round2 == 'a'  or answer_round2 == 'art for art\'s sake' :                           #correct answer
+                print("Well done, correct answer! Off to second round!!")
+                input('<Press Enter to continue>')
+                round_2()
+                break
+
+            elif  answer_round2 == 'exit':
+                exit(0)
+            else:
+                if questions == 2:
+                    if answer_round2 == 'a' or answer_round2 == 'b':
+                        print("Okay I will ask you one more time!")####
+                        questions -= 1###
+                    else:
+                        print(f"""
+Your answer is not valid. If you don't give a valid answer next time, you will be disqualified. \n""")
+                        questions -= 1
+
+                elif questions == 1:
+                    if answer_round2 == 'a' or answer_round2 == 'b' :
+                        print(f"""You answered this one wrong in your second chance... """)
+                        questions -= 1
+                        fail()
+                        break
+                    else:
+                        questions -= 1
+                        disqualify()
+                else:
+                    fail()
+                    
+        if question == question_list[4]:     #In what year street artist Banksy(very similar to Fansy), stuck his work on the the
+            print(f"""Choose the correct answer:
+                A) 2002
+                B) 2005
+                C) 2003
+                """)
+
+            answer_round2 = input("> ").lower()
+            if answer_round2 == 'c' or answer_round2 == '2003' :                           #correct answer
+                print("Well done, correct answer! Off to second round!!")
+                input('<Press Enter to continue>')
+                round_2()
+                break
+
+            elif  answer_round2 == 'exit':
+                exit(0)
+
+            else:
+               if questions == 2:
+                   if answer_round2 == 'a' or answer_round2 == 'b':
+                        print("Okay I will ask you one more time!")####
+                        questions -= 1###
+                   else:
+                        print(f"""
+Your answer is not valid. If you don't give a valid answer next time, you will be disqualified. \n""")
+                        questions -= 1
+
+               elif questions == 1:
+                   if answer_round2 == 'a' or answer_round2 == 'b' :
+                        print(f"""
+You answered this one wrong in your second chance... \n""")
+                        questions -= 1
+                        fail()
+                        break
+                   else:
+                        questions -= 1
+                        disqualify()                     
+               else:
+                    fail()
+
+def round_2():
+
+
+        print(f"""\n
+******************************************************************************
+                      WELCOME TO ROUND 2!
+******************************************************************************    
+""")
+        print(f"""
+This auction has minimum of $10,000 and maximum of $60,000 bid amounts for every
+10 bidders including you, {bidder_name}.""")
+        
+        input('\t\t\t\t\t<Press any key to continue> \n\n')
+        
+        print(f"""
+
+Fansy, our famous artist, wants you to roll a die to finalize your bid. You are
+allowed to roll the die at most 3 times, unless you are satisfied with the outcome.
+
+
+Each number on the die is some amount of money, you can see below:
+
+                    Rolling 1: $10,000
+                    Rolling 2: $20,000
+                    Rolling 3: $30,000
+                    Rolling 4: $40,000
+                    Rolling 5: $50,000
+                    Rolling 6: $60,000
+
+Roll the die and try to be in the top 5 bidders! 
+And you will be qualified to be the first one to attempt finding the artwork of
+Fansy, in the last round. \n""")
+        print(f"Good luck!\n")
+
+        input(f"""
+\t\t\t<Press enter to roll the die, {bidder_name}, and set your bid.> """)
+
+        chances = 3
+
+        while chances > 0:
+        #print("\nRolling the die")
+            print('\n\t\t\t...Die is rolling...\n')
+            input()
+            die_value = randint(1,6)
+
+            if die_value == 1:
+                chois = 10000
+                print(f"You rolled 1 and your bid is ${chois} \n")
+
+                if chances > 1:
+                    print(f"""Would you like to continue with this bid? Y/N \n""")
+                    
+            
+                elif chances == 1: #this is the last chance of the player, to stay in the game player must accept the bid.
+                    print(f"""\n   
+Do you want to stay in the game with the final bid?
+If you want to stay in the game please type 'Yes' or 'Y'.
+If you want to leave the game, please type 'Exit'. \n""")
+                    
+                    ans_toext = input(f'> \n').upper()
+                    if ans_toext == 'EXIT':
+                            exit(0)
+                    elif ans_toext == 'YES' or ans_toext == 'Y': #player stays in the game
+                        print('Perfect!')
+                        print('<Press Enter to continue>')
+                    else :
+                        fail()
+
+                else:
+                    fail()
+
+                answer = input('>').upper()
+                if answer == 'Y' or chances == 1:
+                    print("Lets see what other's did! \n")
+                    chois = 10000
+                    round_2a(chois)
+
+                elif answer == 'N':
+                    chances -= 1
+                    die_response(chances)
+                    
+                elif answer == 'EXIT':
+                    exit()
+                    
+                else:
+                    if chances != 1:
+                        print(f"""
+Oops you give an invalid response""")
+                        chances -= 1
+                    else:
+                        print(f"""
+Oops you give an invalid response again!""")
+                    fail()
+
+            elif die_value == 2 :
+                chois = 20000
+                print(f"You rolled 2 and your bid is ${chois}")
+
+                if chances > 1:
+                    print(f"""Would you like to continue with this bid?
+                  Y/N \n""")
+                elif chances == 1: #this is the last chance of the player, to stay in the game player must accept the bid.
+                    print(f"""\n   
+Do you want to stay in the game with the final bid?
+If you want to stay in the game please type 'Yes'.
+If you want to leave the game, please type 'Exit'. \n""")
+                    
+                    
+                    ans_toext = input('>').upper() #here are different scenarios according to response of the player
+                    if ans_toext == 'EXIT':
+                        print("<press 0 to exit>")
+                        exit(0)
+                    elif ans_toext == 'YES' or ans_toext == 'Y':
+                        print('Perfect!')
+                        print('<Press Enter to continue>')
+                    else :
+                        print(f"""
+                          Invalid response""") #this is only for the last time
+                        fail()
+
+                else:  #chances finish
+                    fail()
+
+                answer = input('>').upper()
+                if answer == 'Y' or chances == 1:
+                    print("\nGreat! Lets continue to the next step")
+
+                    chois = 20000
+                    round_2a(chois)
+
+                elif answer == 'N':
+                    chances -= 1
+                    die_response(chances)
+
+
+                elif answer == 'EXIT':
+                    exit()
+
+                else:
+                    if chances != 1:
+                        print(f"""
+Oops you give an invalid response""")
+                        chances -= 1
+                    else:
+                        print(f"""
+Oops you give an invalid response again!""")
+                        fail()
+
+            elif die_value == 3:
+                chois = 30000
+                print(f"You rolled 3 and your bid is ${chois}")
+                if chances > 1:
+                    print(f"""Would you like to continue with this bid? Y/N \n""")
+                elif chances == 1:
+                    print(f"""
+Do you want to stay in the game with the final bid?
+If you want to stay in the game please type 'Yes'.
+If you want to leave the game, please type 'Exit'. \n """)
+                    
+                    ans_toext = input('>').upper() #this comes up only when chances is 1
+                    if ans_toext == 'EXIT':
+                        print("<press 0 to exit>")
+                        exit(0)
+                    elif ans_toext == 'YES':
+                        print('Perfect!')
+                        print('<Press Enter to continue>')
+                    else :
+                        print(f"""
+                          Invalid response""") #this is only for the last time
+                        fail()
+
+                else:   #first if clause for die = 3 ends
+                    fail()
+
+                answer = input('> ').upper()
+                if answer == 'Y'or chances == 1:
+                    print("Great! Lets continue to the next step")
+
+                    chois = 30000
+                    round_2a(chois)
+
+                elif answer == 'N':
+                    chances -= 1
+                    die_response(chances)
+                    
+                elif answer == 'EXIT':
+                    exit()
+
+                else:
+                    if chances != 1:
+                        print(f"""
+Oops you give an invalid response""")
+                        chances -= 1
+                    else:
+                        print(f"""
+Oops you give an invalid response again!""")
+                        fail()
+
+            elif die_value == 4:
+                chois = 40000
+                print(f"\nYou rolled 3 and your bid is $ {chois}\n ")
+
+                if chances > 1:
+                    print(f"""Would you like to continue with this bid? Y/N \n""")
+                elif chances == 1:
+                    print(f"""
+Do you want to stay in the game with the final bid?
+If you want to stay in the game please type 'Yes'.
+If you want to leave the game, please type 'Exit'.\n
+                      """)
+                    ans_toext = input('>').upper()
+                    if ans_toext == 'EXIT':
+                        print("<press 0 to exit>")
+                        exit(0)
+                    elif ans_toext == 'YES':
+                        print('Perfect!')
+                        print('<Press Enter to continue>\n')
+                    else :
+                        print('Oops you give an invalid response again!')
+                        fail()
+
+                else:
+                    fail()
+
+                answer = input('>').upper()
+                if answer == 'Y' or chances == 1:
+                    print("\nGreat! Lets continue to the next step")
+
+                    chois = 40000  #die value = 4
+                    round_2a(chois)
+
+                elif answer == 'N':
+                    chances -= 1
+                    die_response(chances)
+
+                elif answer == 'EXIT':
+                    exit()
+
+                else:
+                    if chances != 1:
+                        print(f"""
+Oops you give an invalid response""")
+                        chances -= 1
+                    else:
+                        print(f"""
+Oops you give an invalid response again!""")
+                        fail()
+
+
+            elif die_value == 5:
+                chois = 50000
+                print(f"You rolled 5 and your bid is ${chois} \n")
+
+                if chances > 1:
+                    print(f"""Would you like to continue with this bid? Y/N \n""")
+                elif chances == 1:
+                    print(f"""
+Do you want to stay in the game with the final bid?
+If you want to stay in the game please type 'Yes'.
+If you want to leave the game, please type 'Exit'. \n""")
+                    ans_toext = input('>').upper()
+                    if ans_toext == 'EXIT':
+                        print("<press 0 to exit>")
+                        exit(0)
+                    elif ans_toext == 'YES':
+                        print('Perfect!')
+                        print('<Press Enter to continue>')
+                    else :
+                        print(f"""
+Oops you give an invalid response""") #this is only for the last time
+                        fail()
+
+                else:
+                    fail()
+
+                answer = input('>').upper()
+                if answer == 'Y' or chances == 1:
+                    print("\nGreat! Lets continue to the next step")
+
+                    chois = 50000
+                    round_2a(chois)
+
+                elif answer == 'N':
+                    chances -= 1
+                    die_response(chances)
+
+                elif answer == 'EXIT':
+                    exit()
+
+                else:
+                    if chances != 1:
+                        print(f"""
+Oops you give an invalid response""")
+                        chances -= 1
+                    else:
+                        print(f"""
+Oops you give an invalid response again!""")
+                        fail()
+
+            elif die_value == 6:
+                chois = 60000
+                print(f"You rolled 6 and your bid is ${chois} \n")
+
+                if chances > 1:
+                    print(f"""Would you like to continue with this bid? Y/N \n""")
+                elif chances == 1:
+                    print(f"""
+Do you want to stay in the game with the final bid?
+If you want to stay in the game please type 'Yes'.
+If you want to leave the game, please type 'Exit'. \n""")
+                    ans_toext = input('>').upper()
+                    if ans_toext == 'EXIT':
+                        print("<press 0 to exit>")
+                        exit(0)
+                    elif ans_toext == 'YES'or ans_toext == 'Y':
+                        print('Perfect!')
+                        print('<Press Enter to continue>')
+                    else :
+                        print(f"""
+Oops!You give an invalid response""") #this is only for the last time
+                        fail()
+
+                else:
+                    fail()
+
+                answer = input('>').upper()
+                if answer == 'Y' or chances == 1:
+                    print("\nGreat! Lets continue to the next step")
+
+                    chois = 60000
+                    round_2a(chois)
+
+                elif answer == 'N':
+                    chances -= 1
+                    die_response(chances)
+
+                elif answer == 'EXIT':
+                    exit()
+
+                else:
+                    if chances != 1:
+                        print(f"""
+Oops you give an invalid response""")
+                        chances -= 1
+                    else:
+                        print(f"""
+Oops you give an invalid response again!""")
+                        fail()
+
+def round_2a(chois):
+    input()
+    list_players = []
+
+    for i in range(9) :
+        player = choice(range(10000, 70000, 10000))
+        list_players.append(player)
+        print( 'Player ' + str(i)  + ' bids '  + ' $' + str(player))
+
+    print('\n')
+    np_list = np.array(list_players)
+    median_players = np.median(np_list)
+    print(f"""
+Your bid ${chois} should be higher than ${int(median_players)}... """)
+
+    if chois > median_players:
+        input()
+        print("\nYess you got this! Obviously you are in your lucky day! You are qualified to move to the next round! \n")
+        round_3()
+
+    else:
+        print("Oh no, it seems like ${int(median_players)} is higher than your bid ${chois}...")
+        fail() ####ends fail()
+
+def round_3():
+     
+    import time
+    print(f""" 
+******************************************************************************
+                      WELCOME TO ROUND 4!
+******************************************************************************""")
+    
+    print(f"""
+There 5 identical black boxes.One of them has the real art of Fansy. 
+
+Other 4 boxes hac blank canvas with a signature of Fansy.\n""")
+    
+    print(f"""
+All you need to do is to pick the right box. Follow your intuitions!
+Write down the number of the box that you believe has the real art!
+
+
+                ██      ██      ██       ██       ██
+              Box 1   Box 2   Box 3    Box 4    Box 5  \n""")
+
+    frame = input(">")
+    frame_real = randint(0,5)
+
+    if frame == frame_real:
+        print(f"""
+Ring the bells!! Looks like we have a winner!!And looks like you have a message
+from Fansy\n""")
+        
+        input("<Press enter to read the message from Fansy>")
+        print(f"""
+            Dear {bidder_name},
+             
+            Congratulations!
+            Thank you for joining this auction. Enjoy my artwork! 
+            Once a very wise artist, Banksy said:
+                 
+            “Think outside the box, collapse the box, and take a f**king sharp knife to it.”
+            
+            And now I would like to tell you that you literally collapsed the
+            box today!!
+            
+            Best,
+            Fansy""")
+        
+        input('<Press any key to see the artwork: Life goes on by Fansy')
+        print("""
+              
+        
+              ────██──────▀▀▀██
+              ──▄▀█▄▄▄─────▄▀█▄▄▄
+              ▄▀──█▄▄──────█─█▄▄
+              ─▄▄▄▀──▀▄───▄▄▄▀──▀▄
+              ─▀───────▀▀─▀───────▀▀   \n\n""")
+        #image was retrieved from https://fsymbols.com/text-art/twitter/
+        
+        input('<Now you can exit>')
+        exit(0)
+
+    else:
+        print(f""" 
+Oh no!! Box number {frame} seems to be the wrong box! 
+Unfortunately, you will not return home with Fansy's art. \n""")
+        
+        print(f"""Do you feel very upset? Y/N \n""")  
+        upset_ans = input('>')
+        if upset_ans == 'Y' or 'Yes':
+            print(f"""
+OK... Let's see if there is anything we can do for you...
+
+As Glimpsie's we would like to at least try {bidder_name}, since we are convinced
+how much you are passionate about art... \n""") 
+            print("Would you like to call Fansy and ask for another chance? Y/N \n")
+            call_ans = input('>').lower()
+            if call_ans == 'y' or call_ans == 'yes' :
+                print("\nAlright! Calling Fansy...")       
+                print(f"""
+  ▄▄██████▄▄                      ▄▄██████▄▄
+▄██▀▄█▄▄█▄▀██▄                  ▄██▀▄█▄▄█▄▀██▄
+▀▀▀▄██▀▀██▄▀▀▀                  ▀▀▀▄██▀▀██▄▀▀▀
+ ▄███─██─███▄                    ▄███─██─███▄
+ █████▄▄█████  .....Ringing....  █████▄▄█████    """)
+                
+   #image retrieved from https://fsymbols.com/text-art/twitter/#all_cats         
+                print(f"""
+He picked up... We will let you know what we can do for you..
+Just wait for 5 seconds.. \n """)
+                time.sleep(5)
+                print(f"""
+Well {bidder_name}, Fancy was convinced that you are very interested in his art...
+You felt very upset about the artworkk..
+So he told us to give you another work of him... \n""")
+                input('\t\t<Press any key to see your art work: "Not so sweet Escape" > \n')
+                print(f"""
+                      ───────────────▄▄───▐█     ░▄▄▄▄░
+                      ───▄▄▄───▄██▄──█▀───█─▄    ▀▀▄██►
+                      ─▄██▀█▌─██▄▄──▐█▀▄─▐█▀▀     ▀███►
+                      ▐█▀▀▌───▄▀▌─▌─█─▌──▌─▌     ░▀███►░█►
+                      ▌▀▄─▐──▀▄─▐▄─▐▄▐▄─▐▄─▐▄    ▒▄████▀▀ """)
+                
+                print(f"""
+\nMaybe  you are not returning home with the art piece that you intended to have...
+But at least you have another work of Fansy! """)
+                input('\t\t\t\t\t<Press any key to continue>')
+                print(f"""\n
+
+Your money will be donated to Young Artists Association to support the art! \n""")
+                print(f"""\n
+Thank you for joining the auction {bidder_name}, it was a pleasure to have such an art
+enthusiast! \n""")
+                print("We will let you know about our next auction!")
+                input('<Press any key to exit>\n')
+                exit(0)
+                
+            else: 
+                print(f"""
+At least you don't feel very upset...
+You won't go home with Fansy's art for sure...
+But your bid will be donated to Young Artists Association.
+You can feel the deep satisfaction of doing good! 
+Thank you for coming to Glimpsie's! \n""")
+                print("We will let you know about our next auction!")
+                input('<Press any key to exit>\n')
+                exit(0)
+
+def die_response(a): 
+     """This function will be used in a loop, to give warnings to the player in round 2.""" 
+                 
+     if a == 3:             
+         print("Roll the dice")                                     
+     elif a == 2:
+        print("that is your second chance!")
+     else:
+        print("This is your last chance")
+
+def fail():
+    """ This function fails the player. Also asks if the player wants to replay. """
+    from sys import exit
+    
+    print(f"You failed! Too bad...")
+
+    print(f"{bidder_name}: Would you like to play again? (Y/N)")
+    replay = input("> ")
+    replay = replay.lower()
+
+    if replay == 'y' :
+        round_1()
+
+    else:
+        print(f"Thanks for playing!")
+        exit(0)
+
+def disqualify():
+    """This function tells user is disqualified due to an invalid answer.
+    It asks if player wants to replay. """
+
+    from sys import exit    
+    print("Your answer is not valid. You are disqualified! \n")
+    print(f"{bidder_name}: Would you like to play again? (Yes/No)")
+    replay2 = input("> ")
+    replay2 = replay2.lower()
+
+    if replay2 == 'yes' :
+        round_1()
+
+    else:
+        print(f"Thanks for playing!")
+        exit(0)
+
+game_start()
