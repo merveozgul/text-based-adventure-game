@@ -718,7 +718,7 @@ Write down the number of the box that you believe has the real art!
               Box 1   Box 2   Box 3    Box 4    Box 5  \n""")
 
     frame = input(">")
-    frame_real = randint(0,5)
+    frame_real = randint(1,6)
 
     if frame == frame_real:
         print(f"""
